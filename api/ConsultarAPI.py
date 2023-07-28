@@ -62,7 +62,7 @@ def criar_filme_novo():
     return jsonify(filmes)
 
 # Excluir
-@app.rout("/filmes/<int:id>",methods=["DELETE"])
+@app.route("/filmes/<int:id>",methods=["DELETE"])
 def excluir_filme(id):
     for indice,filme in enumerate(filmes):
         if filme.get("id") == id:
