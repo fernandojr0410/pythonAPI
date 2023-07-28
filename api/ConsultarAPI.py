@@ -53,5 +53,20 @@ def atualizar_filmes_id(id):
         if filme.get("id") == id:
             filmes[indice].update(filme_alterado)
             return jsonify(filmes[indice])
+        
+# Criar
+@app.route("/filmes",methods=["POST"])
+def criar_filme_novo():
+    filme_novo = request.get_json()
+    filmes.append(filme_novo)
+    return jsonify(filmes)
+
+# Excluir
+@app.rout("/filmes/<int:id>",methods=["DELETE"])
+def excluir_filme(id):
+    for indice,filme in enumerate(filmes):
+        if filme.get("id") == id:
+            del filmes[indice]
+            return jsonify(filmes)
 
 app.run(port=8080,host="localhost",debug=True)
