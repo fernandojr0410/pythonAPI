@@ -33,16 +33,19 @@ filmes = [
     }
 ]
 
-# Consultar(todos)
-@app.route("/filmes",methods=["GET"])
-def consultar_filmes():
-    return jsonify(filmes)
-
-# Consultar(id)
-@app.route("/filmes/<int:id>",methods=["GET"])
-def consultar_filmes_id(id):
-    for filme in filmes:
+# Atualizar
+@app.route("/filmes/<int:id>",methods=["PUT"])
+def atualizar_filmes_id(id):
+    filme_alterado = request.get_json()
+    for indice,filme in enumerate(filmes):
         if filme.get("id") == id:
-            return jsonify(filme)
+            filmes[indice].update(filme_alterado)
+            return jsonify(filmes[indice])
 
-app.run(port=8080,host="localhost",debug=True)
+# Excluir
+@app.route("/filmes/<int:id>",methods=["DELETE"])
+def excluir_filme(id):
+    for indice,filme in enumerate(filmes):
+        if filme.get("id") == id:
+            del filmes[indice]
+            return jsonify(filmes)

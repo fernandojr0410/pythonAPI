@@ -2,61 +2,64 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-usuarios = [
+produtos = [
     {
         "id": 1,
-        "nome": "Fernando da Silva Junior",
-        "idade": 20,
-        "curso": "Engenharia de Software",
+        "marca": "Apple",
+        "Categoria": "Iphone",
+        "descricao": "Iphone 13, 258GB, Preto",
+        "preco": "5.300,00"
     },
     {
         "id": 2,
-        "nome": "Matheus Henrique",
-        "idade": 32,
-        "curso": "Engenharia Civil",
+        "marca": "Apple",
+        "Categoria": "Macboook",
+        "descricao": "Macbook Air 2017, 128GB SSD, Prata",
+        "preco": "6.300,00"
     },
     {
         "id": 3,
-        "nome": "Maria Clara",
-        "idade": 26,
-        "curso": "Direito"
-    },
+        "marca": "Apple",
+        "Categoria": "Fone de Ouvido",
+        "descricao": "Air Pod 2° Geração, Branco",
+        "preco": "1.700,00"
+    }
 ]
 
-#Consultar(todos)
-@app.route("/usuarios",methods=["GET"])
-def consultar_usuario():
-    return jsonify(usuarios)
+#Consultar(Todos)
+@app.route("/produtos",methods=["GET"])
+def consultar_produtos():
+    return jsonify(produtos)
 
-#Consultar(id)
-@app.route("/usuario<int:id>",methods=["GET"])
-def consultar_usuario_id(id):
-    for usuario in usuarios:
-        if usuario.get("id") == id:
-            return jsonify(usuario)
-
+#Consultar(ID)
+@app.route("/produtos/<int:id>",methods=["GET"])
+def consultar_produto_id(id):
+    for produto in produtos:
+        if produto.get("id") == id:
+            return jsonify(produto)
+        
 #Atualizar
-@app.rout("/usuarios/<int:id>",methods=["PUT"])
-def usuario_atualizado_id(id):
-    usuario_alterado = request.get_json()
-    for indice,usuario in enumerate(usuarios):
-        if usuario.get("id") == id:
-            usuarios[indice].update(usuario_alterado)
-            return jsonify(usuarios[indice])
+@app.route("/produtos/<int:id>",methods=["PUT"])
+def atualizar_produto_id(id):
+    produto_atualizado = request.get_json()
+    for indice,produto in enumerate(produtos):
+        if produto.get("id") == id:
+            produtos[indice].update(produto_atualizado)
+            return jsonify(produtos[indice])
         
 #Criar
-@app.rout("/usuarios",methods=["POST"])
-def criar_usuario_novo():
-    usuario_novo = request.get_json()
-    usuarios.append(usuario_novo)
-    return jsonify(usuarios)
+@app.route("/produtos",methods=["POST"])
+def criar_produto():
+    novo_produto = request.get_json()
+    produtos.append(novo_produto)
+    return jsonify(produtos)
 
 #Excluir
-@app.route("/usuarios/<int:id>",methods=["DELETE"])
-def excluir_usuarios(id):
-    for indice,usuario in enumerate(usuarios):
-        if usuario.get("id") == id:
-            del usuarios[indice]
-            return jsonify(usuarios)
+@app.route("/produtos/<int:id>",methods=["DELETE"])
+def excluir_produto_id(id):
+    for indice,produto in enumerate(produtos):
+        if produto.get("id") == id:
+            del produtos[indice]
+            return jsonify(produtos)
 
 app.run(port=5000,host="localhost",debug=True)
